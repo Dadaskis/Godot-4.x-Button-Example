@@ -1,0 +1,86 @@
+[gd_scene load_steps=14 format=3 uid="uid://bssaslmetn7km"]
+
+[ext_resource type="Texture2D" uid="uid://c8rqnxjhtejp4" path="res://textures/dev_grid_D.tga" id="1_0n7fq"]
+[ext_resource type="PackedScene" uid="uid://bvpje8axuf048" path="res://modules/player_controller/assets/prefabs/player.tscn" id="1_j2lyl"]
+[ext_resource type="Script" path="res://modules/phys_button/src/phys_button.gd" id="3_ftcs3"]
+[ext_resource type="PackedScene" uid="uid://65ux0ttvvowi" path="res://prefabs/button0/button0.tscn" id="4_qcpoq"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_v2xgl"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_5t6hy"]
+sky_material = SubResource("ProceduralSkyMaterial_v2xgl")
+
+[sub_resource type="Environment" id="Environment_owaer"]
+background_mode = 2
+sky = SubResource("Sky_5t6hy")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qjrq5"]
+albedo_color = Color(0.641934, 0.641934, 0.641934, 1)
+albedo_texture = ExtResource("1_0n7fq")
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_wqsul"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_iyk2l"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_217j5"]
+albedo_color = Color(0.868277, 0, 0.232064, 1)
+albedo_texture = ExtResource("1_0n7fq")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_kvhei"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5pj3b"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
+
+[node name="Test" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_owaer")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(7.32, 0, 0, 0, -3.54587e-07, 1, 0, -8.112, -4.37114e-08, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_qjrq5")
+mesh = SubResource("BoxMesh_wqsul")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_iyk2l")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(7.32001, 0, 0, 0, -4.40015e-08, 1.50159, 0, -1.00664, -6.56367e-08, -4.76837e-07, 1.11298, -3.42984)
+material_override = SubResource("StandardMaterial3D_qjrq5")
+mesh = SubResource("BoxMesh_wqsul")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_iyk2l")
+
+[node name="Player" parent="." instance=ExtResource("1_j2lyl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.88963, 3.06796, 1.53905)
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.312718, 0, 0, 0, 0.312718, 0, 0, 0, 0.0473517, 1.29212, 1.63481, -2.90318)
+material_override = SubResource("StandardMaterial3D_217j5")
+mesh = SubResource("BoxMesh_kvhei")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3"]
+script = ExtResource("3_ftcs3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_5pj3b")
+
+[node name="button0" parent="." instance=ExtResource("4_qcpoq")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.569979, 1.63393, -2.91747)
